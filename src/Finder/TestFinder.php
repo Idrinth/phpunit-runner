@@ -170,6 +170,7 @@ final class TestFinder
     {
         $annotations = new AnnotationCollection;
         $docBlock    = \substr($docBlock, 3, -2);
+
         if (!$docBlock) {
             return $annotations;
         }
@@ -188,12 +189,13 @@ final class TestFinder
                     )
                 );
             }
+
             if (\preg_match_all('/@(?P<name>testWith)[\t ](?P<value>(\[.*?\]|[\n\r]+[\t ]*\*[\t ]+)+)/', $docBlock, $matches)) {
                 foreach ($matches['value'] as $value) {
                     $annotations->add(
                         new Annotation(
                             'testWith',
-                            '[' . \implode(',', \preg_split('/[ \t]*[\r\n][ \t]*\*[ \t]*/', $value) ?: '') . ']'
+                            '[' . \implode(',', \preg_split('/[ \t]*[\r\n][ \t]*\*[ \t]*/', $value) ?: []) . ']'
                         )
                     );
                 }
