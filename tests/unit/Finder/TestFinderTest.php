@@ -182,7 +182,7 @@ final class TestFinderTest extends TestCase
             new TestMethod(
                 $this->fixtureDirectory . '/' . 'TestWithTest.php',
                 TestWithTest::class,
-                'testTwo',
+                'testSeven',
                 AnnotationCollection::fromArray(
                     new Annotation(
                         'testWith',
