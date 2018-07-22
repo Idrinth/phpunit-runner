@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use PHPUnit\NewRunner\TestFixture\BarTest;
 use PHPUnit\NewRunner\TestFixture\FooTest;
 use PHPUnit\NewRunner\TestFixture\MyTestCase;
+use PHPUnit\NewRunner\TestFixture\TestWithTest;
 
 /**
  * @covers PHPUnit\NewRunner\TestFinder
@@ -167,6 +168,25 @@ final class TestFinderTest extends TestCase
                     new Annotation(
                         'covers',
                         'Bar'
+                    )
+                ),
+                AnnotationCollection::fromArray()
+            ),
+            $tests,
+            '',
+            false,
+            false
+        );
+
+        $this->assertContains(
+            new TestMethod(
+                $this->fixtureDirectory . '/' . 'TestWithTest.php',
+                TestWithTest::class,
+                'testTwo',
+                AnnotationCollection::fromArray(
+                    new Annotation(
+                        'testWith',
+                        '[[1],[8],[12]]'
                     )
                 ),
                 AnnotationCollection::fromArray()
