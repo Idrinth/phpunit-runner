@@ -47,7 +47,7 @@ final class TestFinderTest extends TestCase
 
         $this->finder = new TestFinder($cache);
 
-        $this->fixtureDirectory = \realpath(__DIR__ . '/../../_fixture');
+        $this->fixtureDirectory = (string) \realpath(__DIR__ . '/../../_fixture');
     }
 
     public function testFindsTestMethods(): void
@@ -56,7 +56,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'FooTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'FooTest.php',
                 FooTest::class,
                 'testOne',
                 AnnotationCollection::fromArray(
@@ -75,7 +75,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'FooTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'FooTest.php',
                 FooTest::class,
                 'testTwo',
                 AnnotationCollection::fromArray(
@@ -99,7 +99,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'FooTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'FooTest.php',
                 FooTest::class,
                 'testThree',
                 AnnotationCollection::fromArray(
@@ -123,7 +123,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertNotContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'MyTestCase.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'MyTestCase.php',
                 MyTestCase::class,
                 'testOne',
                 AnnotationCollection::fromArray(
@@ -142,7 +142,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'BarTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'BarTest.php',
                 BarTest::class,
                 'testOne',
                 AnnotationCollection::fromArray(
@@ -161,7 +161,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'BarTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'BarTest.php',
                 BarTest::class,
                 'testTwo',
                 AnnotationCollection::fromArray(
@@ -180,7 +180,7 @@ final class TestFinderTest extends TestCase
 
         $this->assertContains(
             new TestMethod(
-                $this->fixtureDirectory . DIRECTORY_SEPARATOR . 'TestWithTest.php',
+                $this->fixtureDirectory . \DIRECTORY_SEPARATOR . 'TestWithTest.php',
                 TestWithTest::class,
                 'testSeven',
                 AnnotationCollection::fromArray(),

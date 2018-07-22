@@ -34,7 +34,7 @@ final class FilesystemCache implements Cache
     public function get(string $sourceFile): TestCollection
     {
         return \unserialize(
-            \file_get_contents($this->cacheFile($sourceFile)),
+            \file_get_contents($this->cacheFile($sourceFile)) ?: '',
             [
                 TestCollection::class,
                 TestMethod::class

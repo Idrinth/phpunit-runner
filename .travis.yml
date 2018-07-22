@@ -51,7 +51,7 @@ jobs:
   include:
     - stage: Static Code Analysis
       php: 7.2
-      name: "PHP Codesniffer: PSR2"
+      name: PHP Cs Fixer
       before_install:
         - phpenv config-rm xdebug.ini || true
         - mkdir ../tools && composer init --name=phpu/tools --working-dir=../tools
