@@ -170,6 +170,9 @@ final class TestFinder
     {
         $annotations = new AnnotationCollection;
         $docBlock    = \substr($docBlock, 3, -2);
+        if (!$docBlock) {
+            return $annotations;
+        }
 
         if (\preg_match_all('/@(?P<name>[A-Za-z_-]+)(?:[ \t]+(?P<value>.*?))?[ \t]*\r?$/m', $docBlock, $matches)) {
             $numMatches = \count($matches[0]);
