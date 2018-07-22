@@ -36,11 +36,6 @@ before_script:
 
 script:
   - ./vendor/bin/phpunit --coverage-clover=coverage.xml
-  - ./vendor/bin/phpunit --configuration ./build/travis-ci-fail.xml > /dev/null; if [ $? -eq 0 ]; then echo "SHOULD FAIL"; false; else echo "fail checked"; fi;
-  - xmllint --noout --schema phpunit.xsd phpunit.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration_empty.xml
-  - xmllint --noout --schema phpunit.xsd tests/_files/configuration_xinclude.xml -xinclude
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -48,21 +43,29 @@ after_success:
 notifications:
   email: false
 
+cache:
+  directories:
+    - $HOME/.composer/cache/
+
 jobs:
   include:
-#    - stage: Static Code Analysis
-#      php: 7.2
-#      env: PHPStan
-#      before_install:
-#        - travis_retry ./build/tools/composer require --no-update phpunit/php-invoker:^2.0
-#      install: travis_retry ./build/tools/composer update --prefer-dist --prefer-stable
-#      script:
-#        - ./build/tools/phpstan analyse --level=max -c phpstan.neon src
-#        - ./build/tools/phpstan analyse --level=max -c phpstan-tests.neon tests
-#    - stage: Static Code Analysis
-#      php: 7.2
-#      env: php-cs-fixer
-#      install:
-#        - phpenv config-rm xdebug.ini
-#      script:
-#        - ./build/tools/php-cs-fixer fix --dry-run -v --show-progress=dots --diff-format=udiff
+    - stage: Static Code Analysis
+      php: 7.2
+      name: "PHP Codesniffer: PSR2"
+      before_install:
+        - phpenv config-rm xdebug.ini || true
+        - mkdir ../tools && composer init --name=phpu/tools --working-dir=../tools
+        - composer require friendsofphp/php-cs-fixer:^2.12 --working-dir=../tools
+      install: true
+      script:
+        - ../tools/vendor/bin/php-cs-fixer fix --dry-run -v --show-progress=dots --diff-format=udiff
+    - stage: Static Code Analysis
+      php: 7.2
+      name: PHPstan
+      before_install:
+        - phpenv config-rm xdebug.ini || true
+        - mkdir ../tools && composer init --name=phpu/tools --working-dir=../tools
+        - composer require phpstan/phpstan:^0.10 --working-dir=../tools
+      install: composer update
+      script:
+        - ../tools/vendor/bin/phpstan analyse --level max src tests
