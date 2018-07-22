@@ -175,12 +175,25 @@ final class TestFinder
             $numMatches = \count($matches[0]);
 
             for ($i = 0; $i < $numMatches; ++$i) {
+                if ($matches['name'] === 'testWith') {
+                    continue;
+                }
                 $annotations->add(
                     new Annotation(
                         (string) $matches['name'][$i],
                         (string) $matches['value'][$i]
                     )
                 );
+            }
+            if (\preg_match_all('/@(?P<name>testWith)[\t ](?P<value>(\[.*?\]|[\n\r]+[\t ]*\*[\t ]+)+)/', $docBlock, $matches)) {
+                foreach($matches['value'] as $value) {
+                    $annotations->add(
+                        new Annotation(
+                            'testWith',
+                            '[' . implode(',', preg_split('/[ \t]*[\r\n][ \t]*\*[ \t]*/', $value)) . ']'
+                        )
+                    );
+                }
             }
         }
 
