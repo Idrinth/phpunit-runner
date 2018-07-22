@@ -175,7 +175,7 @@ final class TestFinder
             $numMatches = \count($matches[0]);
 
             for ($i = 0; $i < $numMatches; ++$i) {
-                if ($matches['name'] === 'testWith') {
+                if ($matches['name'][$i] === 'testWith') {
                     continue;
                 }
                 $annotations->add(
